@@ -9,10 +9,13 @@
 
 </head>
 <body>
-<hr>
-    <label for="inputNewName" id="labelName">Say your name:</label>
-    <input type="text" id="inputNewName" name="name" required size="12" maxlength="12">
-    <br>
+    <h1>Welcome, stranger!</h1>
+    <p>Listen to me soon! You came here from a quantum portal. It was meant to be.</p>
+    <hr>
+        <label for="inputName" id="labelName">Say your name:</label>
+        <input type="text" id="inputName" name="name" required size="12" maxlength="12">
+    <br><br>
+        <button name="submit">Continue...</button>
         <c:set var="inputName" value="1"/>
 <%--        <c:if test="${inputName != ''}">--%>
 <%--            <h1 style="color:rgb(150,0,0)">NOUGHTS WIN!</h1>--%>

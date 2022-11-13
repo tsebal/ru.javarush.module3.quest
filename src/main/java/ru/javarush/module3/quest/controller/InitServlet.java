@@ -1,8 +1,11 @@
-package ru.javarush.module3.quest;
+package ru.javarush.module3.quest.controller;
 
-import java.io.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "init-servlet", value = "/start")
 public class InitServlet extends HttpServlet {
