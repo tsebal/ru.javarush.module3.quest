@@ -5,50 +5,51 @@ import ru.javarush.module3.quest.entity.Question;
 
 import java.util.*;
 
+/**
+ *  Initializes the map with the answers and their id's.
+ *  Also initializes the List<Answer> for each question.
+ */
 public class AnswersInitializer {
     private static Properties questProp;
-    private Map<Integer, Answer> answersMap;
-    private Map<Integer, Question> questionsMap;
-    private List<Answer> answersList;
+    private final Map<Integer, Answer> answersMap;
+    private final Map<Integer, Question> questionsMap;
+    private final List<Answer> answersList;
 
     public AnswersInitializer(Properties questProp, Map<Integer, Question> questionsMap) {
         AnswersInitializer.questProp = questProp;
         this.answersMap = new HashMap<>();
         this.questionsMap = questionsMap;
         this.answersList = new ArrayList<>();
+        init();
     }
-//TODO:this:
 
-//    public List<Answer> getAnswersList(int questionNumber) {
-//        int maxAnswersPerQuestion = Integer.parseInt(questProp.getProperty("maxAnswersPerQuestion"));
-//        int answersSectionFactor = Integer.parseInt(questProp.getProperty("AnswersSectionFactor"));
-//
-//        for (int i = 0; i < maxAnswersPerQuestion; i++) {
-//            int answerId = questionNumber * answersSectionFactor + i;
-//            String answerText = questProp.getProperty("Answer" + answerId, null);
-//
-//            if (Objects.nonNull(answerText)) {
-//                Answer answer = new Answer(answerId, answerText, null);
-//
-//            }
-//        }
-//        return null;
-//    }
+    public Map<Integer, Answer> getAnswersMap() {
+        return answersMap;
+    }
 
     private void init() {
+
         int maxAnswersPerQuestion = Integer.parseInt(questProp.getProperty("maxAnswersPerQuestion"));
         int answersSectionFactor = Integer.parseInt(questProp.getProperty("AnswersSectionFactor"));
 
         for (Integer questionId : questionsMap.keySet()) {
             for (int i = 0; i < maxAnswersPerQuestion; i++) {
+
                 int answerId = questionId * answersSectionFactor + i;
                 String answerText = questProp.getProperty("Answer" + answerId, null);
+                Integer nextQuestionNum = Integer.parseInt(questProp.getProperty("NextQuestion" + answerId, null));
+                Question nextQuestion = questionsMap.getOrDefault(nextQuestionNum, null);
 
                 if (Objects.nonNull(answerText)) {
-                    Answer answer = new Answer(answerId, answerText, null);
-
+                    Answer answer = new Answer(answerId, answerText, nextQuestion);
+                    answersMap.put(answerId, answer);
+                    answersList.add(answer);
                 }
             }
+
+            Question currentQuestion = questionsMap.get(questionId);
+            currentQuestion.setAnswers(answersList);
+            answersList.clear();
         }
     }
 }

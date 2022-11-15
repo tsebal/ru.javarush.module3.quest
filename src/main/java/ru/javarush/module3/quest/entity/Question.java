@@ -12,9 +12,7 @@ public class Question {
         this.text = text;
     }
 
-    public Question(int id, String text, List<Answer> answers) {
-        this.id = id;
-        this.text = text;
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 }

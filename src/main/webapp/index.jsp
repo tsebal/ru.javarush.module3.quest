@@ -4,6 +4,8 @@
 <head>
     <title>Text Quest by Tsebal</title>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <jsp:useBean id="gameService" class="ru.javarush.module3.quest.service.GameService"
+                 scope="session"/>
     <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/custom.css">
 
@@ -16,7 +18,7 @@
         <input type="text" id="inputName" name="name" required size="12" maxlength="12">
     <br><br>
         <button name="submit">Continue...</button>
-        <c:set var="inputName" value="1"/>
+<%--        <c:set var="inputName" value="1"/>--%>
 <%--        <c:if test="${inputName != ''}">--%>
 <%--            <h1 style="color:rgb(150,0,0)">NOUGHTS WIN!</h1>--%>
 <%--            <button type="submit" onclick="createUserAccount()">Continue...</button>--%>

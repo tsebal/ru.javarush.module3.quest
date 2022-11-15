@@ -2,6 +2,7 @@ package ru.javarush.module3.quest.service;
 
 import ru.javarush.module3.quest.entity.Answer;
 import ru.javarush.module3.quest.entity.Question;
+import ru.javarush.module3.quest.entity.User;
 import ru.javarush.module3.quest.repository.AnswerRepository;
 import ru.javarush.module3.quest.repository.QuestionRepository;
 import ru.javarush.module3.quest.util.AnswersInitializer;
@@ -16,13 +17,16 @@ import java.util.Properties;
 public class GameService {
     private QuestionRepository questionRepository;
     private AnswerRepository answerRepository;
+    private User user;
 
-    public static void init() {
-        Map<Integer, Question> questionsMap = new HashMap<>();
+    public void init(String userName) {
 
         Properties questProp = PropertiesLoader.load();
         QuestionsInitializer questionsInitializer = new QuestionsInitializer(questProp);
         AnswersInitializer answersInitializer = new AnswersInitializer(questProp, questionsInitializer.getQuestionsMap());
+        this.questionRepository = new QuestionRepository(questionsInitializer.getQuestionsMap());
+        this.answerRepository = new AnswerRepository(answersInitializer.getAnswersMap());
+        this.user = new User(userName);
 
 
 
