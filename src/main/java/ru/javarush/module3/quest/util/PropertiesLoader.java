@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -13,13 +12,9 @@ import java.util.Properties;
  */
 public class PropertiesLoader {
     private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
-    public static String rootPath = Objects.requireNonNull(Thread.currentThread()
-                    .getContextClassLoader()
-                    .getResource(""))
-            .getPath();
-    private static final String APP_CONFIG_PATH = rootPath + "quest.properties";
 
-    public static Properties load() {
+    public static Properties load(String appPath) {
+        String APP_CONFIG_PATH = appPath + "WEB-INF\\classes\\quest.properties";
         Properties appProps = new Properties();
 
         try (FileInputStream fis = new FileInputStream(APP_CONFIG_PATH)) {

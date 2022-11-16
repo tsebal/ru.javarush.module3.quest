@@ -29,7 +29,7 @@ public class AnswersInitializer {
 
     private void init() {
 
-        int maxAnswersPerQuestion = Integer.parseInt(questProp.getProperty("maxAnswersPerQuestion"));
+        int maxAnswersPerQuestion = Integer.parseInt(questProp.getProperty("MaxAnswersPerQuestion"));
         int answersSectionFactor = Integer.parseInt(questProp.getProperty("AnswersSectionFactor"));
 
         for (Integer questionId : questionsMap.keySet()) {
@@ -37,7 +37,7 @@ public class AnswersInitializer {
 
                 int answerId = questionId * answersSectionFactor + i;
                 String answerText = questProp.getProperty("Answer" + answerId, null);
-                Integer nextQuestionNum = Integer.parseInt(questProp.getProperty("NextQuestion" + answerId, null));
+                Integer nextQuestionNum = Integer.parseInt(questProp.getProperty("NextQuestion" + answerId, "0"));
                 Question nextQuestion = questionsMap.getOrDefault(nextQuestionNum, null);
 
                 if (Objects.nonNull(answerText)) {

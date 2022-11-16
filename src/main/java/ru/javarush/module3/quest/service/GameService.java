@@ -1,7 +1,5 @@
 package ru.javarush.module3.quest.service;
 
-import ru.javarush.module3.quest.entity.Answer;
-import ru.javarush.module3.quest.entity.Question;
 import ru.javarush.module3.quest.entity.User;
 import ru.javarush.module3.quest.repository.AnswerRepository;
 import ru.javarush.module3.quest.repository.QuestionRepository;
@@ -10,18 +8,25 @@ import ru.javarush.module3.quest.util.AnswersInitializer;
 import ru.javarush.module3.quest.util.PropertiesLoader;
 import ru.javarush.module3.quest.util.QuestionsInitializer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 public class GameService {
+    private static GameService instance;
     private QuestionRepository questionRepository;
     private AnswerRepository answerRepository;
     private UserRepository userRepository;
 
+    public static synchronized GameService getInstance() {
+        if (instance == null)
+            instance = new GameService();
+        return instance;
+    }
+
     public GameService() {
-        Properties questProp = PropertiesLoader.load();
+    }
+
+    public void init(String appPath) {
+        Properties questProp = PropertiesLoader.load(appPath);
         QuestionsInitializer questionsInitializer = new QuestionsInitializer(questProp);
         AnswersInitializer answersInitializer = new AnswersInitializer(questProp, questionsInitializer.getQuestionsMap());
         this.questionRepository = new QuestionRepository(questionsInitializer.getQuestionsMap());
