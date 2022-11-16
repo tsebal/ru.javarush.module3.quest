@@ -20,4 +20,8 @@ public class User {
     public int getScore() {
         return score;
     }
+
+    public void incrementScore() {
+        this.score++;
+    }
 }

@@ -4,8 +4,6 @@
 <head>
     <title>Text Quest by Tsebal</title>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <jsp:useBean id="gameService" class="ru.javarush.module3.quest.service.GameService"
-                 scope="session"/>
     <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="static/custom.css">
 
@@ -14,18 +12,11 @@
     <h1>Welcome, stranger!</h1>
     <p>Listen to me soon! You came here from a quantum portal. It was meant to be.</p>
     <hr>
+    <form action="start" method="get">
         <label for="inputName" id="labelName">Say your name:</label>
-        <input type="text" id="inputName" name="name" required size="12" maxlength="12">
-    <br><br>
-        <button name="submit">Continue...</button>
-<%--        <c:set var="inputName" value="1"/>--%>
-<%--        <c:if test="${inputName != ''}">--%>
-<%--            <h1 style="color:rgb(150,0,0)">NOUGHTS WIN!</h1>--%>
-<%--            <button type="submit" onclick="createUserAccount()">Continue...</button>--%>
-<%--        </c:if>--%>
-    <br/>
-<a href="start">Hello Servlet</a>
-
+        <input type="text" id="inputName" name="userName" required size="12" maxlength="12">
+        <input type="submit" value="Continue..." />
+    </form>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
