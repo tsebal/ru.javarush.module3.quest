@@ -4,6 +4,7 @@ import ru.javarush.module3.quest.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class UserRepository {
     private final Map<String, User> sessionToUser;
@@ -12,11 +13,11 @@ public class UserRepository {
         this.sessionToUser = new HashMap<>();
     }
 
-    public void addUser(String sessionId, User user) {
+    public synchronized void addUser(String sessionId, User user) {
         sessionToUser.put(sessionId, user);
     }
 
-    public User findUserBySessionId(String sessionId) {
-        return sessionToUser.getOrDefault(sessionId, null);
+    public Optional<User> findUserBySessionId(String sessionId) {
+        return Optional.ofNullable(sessionToUser.get(sessionId));
     }
 }

@@ -12,7 +12,7 @@ public class QuestionRepository {
         this.idToQuestion = idToQuestion;
     }
 
-    Optional<Question> findById(int id) {
+    public Optional<Question> findById(int id) {
         return Optional.ofNullable(idToQuestion.get(id));
     }
 }

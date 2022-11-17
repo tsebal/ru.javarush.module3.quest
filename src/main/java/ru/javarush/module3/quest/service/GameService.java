@@ -8,6 +8,8 @@ import ru.javarush.module3.quest.util.AnswersInitializer;
 import ru.javarush.module3.quest.util.PropertiesLoader;
 import ru.javarush.module3.quest.util.QuestionsInitializer;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 
 public class GameService {
@@ -36,6 +38,15 @@ public class GameService {
 
     public void addNewUser(String sessionId, String userName) {
         userRepository.addUser(sessionId, new User(userName));
+    }
+
+    public boolean userIsPresent(String sessionId) {
+        return Objects.nonNull(userRepository.findUserBySessionId(sessionId));
+    }
+
+    public String getUserNameBySessionId(String sessionId) {
+        User currentUser = userRepository.findUserBySessionId(sessionId).get();
+        return currentUser.getName();
     }
 
 //    public QuestionDto findQuestionById(Long id) {
