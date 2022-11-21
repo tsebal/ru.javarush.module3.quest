@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "init-servlet", value = "/start")
 public class InitServlet extends HttpServlet {
@@ -22,9 +22,13 @@ public class InitServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
 
-        String appPath = super.getServletContext().getRealPath("");
-        gameService = GameService.getInstance();
-        gameService.init(appPath);
+        try {
+            String appPath = super.getServletContext().getRealPath("");
+            gameService = GameService.getInstance();
+            gameService.init(appPath);
+        } catch (Exception e) {
+            logger.error("Problems with InitServlet init(): " + e.getMessage());
+        }
 
         logger.info("GameService initialized.");
     }
@@ -32,24 +36,20 @@ public class InitServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            String userSessionId = request.getSession().getId();
+            HttpSession session = request.getSession();
+            String userSessionId = session.getId();
             String userName = request.getParameter("userName");
+            int firstQuestionNum = 1;
 
-            if (!gameService.userIsPresent(userSessionId)) {
+            if (gameService.userIsPresent(userSessionId)) {
                 gameService.addNewUser(userSessionId, userName);
+                logger.info("New User added: " + userName);
             }
 
-//            response.sendRedirect(request.getContextPath() + "/questgame.jsp");
-
-            response.setContentType("text/html");
-
-            // Hello
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + "Good to see you in this area, " + userName + "</h1>");
-            out.println("<h2>" + "Session id is: " + userSessionId + "</h2>");
-            out.println("<h3>" + "App path is: " + "</h3>");
-            out.println("</body></html>");
+            session.setAttribute("userName", userName);
+            session.setAttribute("userScore", gameService.getUserScore(userSessionId));
+            session.setAttribute("question", gameService.findQuestionById(firstQuestionNum));
+            response.sendRedirect(request.getContextPath() + "/questgame.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,6 +57,4 @@ public class InitServlet extends HttpServlet {
         }
     }
 
-    public void destroy() {
-    }
 }

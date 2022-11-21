@@ -9,7 +9,6 @@ import ru.javarush.module3.quest.util.PropertiesLoader;
 import ru.javarush.module3.quest.util.QuestionsInitializer;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Properties;
 
 public class GameService {
@@ -44,18 +43,18 @@ public class GameService {
         return Objects.nonNull(userRepository.findUserBySessionId(sessionId));
     }
 
+    public String findQuestionById(int questionId) {
+        return questionRepository.findQuestionById(questionId).get().getText();
+    }
+
+    public String getUserScore(String sessionId) {
+        User currentUser = userRepository.findUserBySessionId(sessionId).get();
+        return String.valueOf(currentUser.getScore());
+    }
+
     public String getUserNameBySessionId(String sessionId) {
         User currentUser = userRepository.findUserBySessionId(sessionId).get();
         return currentUser.getName();
     }
 
-//    public QuestionDto findQuestionById(Long id) {
-//        Question question = questionRepository.findById(id).orElseThrow(() -> new RuntimeException());
-//        List<Answer> answers = answerRepository.findByIds(question.getAnswersId());
-//
-//        // List<Answer> answers ---->  List<AnswerDto> answers
-//
-//        // questionId =
-//        return new QuestionDto();
-//    }
 }

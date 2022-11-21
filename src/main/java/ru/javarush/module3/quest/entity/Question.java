@@ -15,4 +15,8 @@ public class Question {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
+
+    public String getText() {
+        return text;
+    }
 }
