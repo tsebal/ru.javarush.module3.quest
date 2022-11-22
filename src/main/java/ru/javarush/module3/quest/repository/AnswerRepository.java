@@ -13,11 +13,7 @@ public class AnswerRepository {
         this.idToAnswer = idToAnswer;
     }
 
-    Optional<Answer> findById(int id) {
-        throw new UnsupportedOperationException();
-    }
-
-    List<Answer> findByIds(List<Long> ids) {
-        throw new UnsupportedOperationException();
+    public Optional<Answer> findAnswerById(int answerId) {
+        return Optional.ofNullable(idToAnswer.get(answerId));
     }
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class QuestionRepository {
-    private Map<Integer, Question> idToQuestion;
+    private final Map<Integer, Question> idToQuestion;
 
     public QuestionRepository(Map<Integer, Question> idToQuestion) {
         this.idToQuestion = idToQuestion;

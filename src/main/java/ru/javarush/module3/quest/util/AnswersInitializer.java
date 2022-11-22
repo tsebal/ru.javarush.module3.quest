@@ -47,8 +47,9 @@ public class AnswersInitializer {
                 }
             }
 
+            List<Answer> currentAnswerList = new ArrayList<>(answersList);
             Question currentQuestion = questionsMap.get(questionId);
-            currentQuestion.setAnswers(answersList);
+            currentQuestion.setAnswers(currentAnswerList);
             answersList.clear();
         }
     }

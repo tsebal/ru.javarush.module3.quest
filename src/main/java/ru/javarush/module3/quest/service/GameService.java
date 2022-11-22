@@ -1,5 +1,6 @@
 package ru.javarush.module3.quest.service;
 
+import ru.javarush.module3.quest.entity.Answer;
 import ru.javarush.module3.quest.entity.User;
 import ru.javarush.module3.quest.repository.AnswerRepository;
 import ru.javarush.module3.quest.repository.QuestionRepository;
@@ -8,8 +9,7 @@ import ru.javarush.module3.quest.util.AnswersInitializer;
 import ru.javarush.module3.quest.util.PropertiesLoader;
 import ru.javarush.module3.quest.util.QuestionsInitializer;
 
-import java.util.Objects;
-import java.util.Properties;
+import java.util.*;
 
 public class GameService {
     private static GameService instance;
@@ -52,9 +52,24 @@ public class GameService {
         return String.valueOf(currentUser.getScore());
     }
 
-    public String getUserNameBySessionId(String sessionId) {
-        User currentUser = userRepository.findUserBySessionId(sessionId).get();
-        return currentUser.getName();
+    public Collection<Answer> findAnswersByQuestionId(int questionId) {
+        return questionRepository.findQuestionById(questionId).get().getAnswers();
+    }
+
+    public int findNextQuestionIdByAnswerId(int answerId) {
+        int nextQuestionId = 0;
+        Optional<Answer> optionalAnswer = answerRepository.findAnswerById(answerId);
+
+        if (optionalAnswer.isPresent()) {
+            nextQuestionId = optionalAnswer.get().getNextQuestion() != null ?
+                    optionalAnswer.get().getNextQuestion().getId() :
+                    0;
+        }
+        if (nextQuestionId != 0 && findQuestionById(nextQuestionId).equals("FINISH")) {
+            nextQuestionId = -1;
+        }
+
+        return nextQuestionId;
     }
 
 }

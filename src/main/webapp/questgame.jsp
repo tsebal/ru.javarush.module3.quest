@@ -19,11 +19,34 @@
 </head>
 <body>
 
-<h2><%= question %></h2>
+<div class="block">
+    <h3><%= question %>
+    </h3>
+</div>
+<hr>
+<c:if test="${!sessionScope.end}">
+    <form action="questgame" method="post">
+        <div class="form-check">
+            <c:forEach var="answer" items="${sessionScope.answers}">
+                <input class="form-check-input" type="radio" name="id" id="answerRadioDefault"
+                       value="${answer.id}">
+                <label class="form-check-label" for="answerRadioDefault">
+                        ${answer.text}
+                </label><br>
+            </c:forEach>
+            <br>
+            <button type="submit">Continue...</button>
+        </div>
+    </form>
+</c:if>
+<hr>
+<%--<h4><%= answer0 %></h4>--%>
+<%--<h4><%= answer1 %></h4>--%>
 <hr>
 <p>Your name: <%= userName %><br>
-Score: <%= userScore %><br>
-Your IP-address: <%= userIP %></p>
+    Score: <%= userScore %><br>
+    Your IP-address: <%= userIP %>
+</p>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
