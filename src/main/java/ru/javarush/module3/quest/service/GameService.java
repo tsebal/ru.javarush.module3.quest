@@ -1,6 +1,7 @@
 package ru.javarush.module3.quest.service;
 
 import ru.javarush.module3.quest.entity.Answer;
+import ru.javarush.module3.quest.entity.Question;
 import ru.javarush.module3.quest.entity.User;
 import ru.javarush.module3.quest.repository.AnswerRepository;
 import ru.javarush.module3.quest.repository.QuestionRepository;
@@ -43,17 +44,25 @@ public class GameService {
         return Objects.nonNull(userRepository.findUserBySessionId(sessionId));
     }
 
-    public String findQuestionById(int questionId) {
-        return questionRepository.findQuestionById(questionId).get().getText();
+    public String getUserScore(String sessionId) {
+
+        Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
+
+        return optionalUser.map(user -> String.valueOf(user.getScore())).orElse("");
     }
 
-    public String getUserScore(String sessionId) {
-        User currentUser = userRepository.findUserBySessionId(sessionId).get();
-        return String.valueOf(currentUser.getScore());
+    public String findQuestionById(int questionId) {
+
+        Optional<Question> optionalQuestion = questionRepository.findQuestionById(questionId);
+
+        return optionalQuestion.isPresent() ? optionalQuestion.get().getText() : "";
     }
 
     public Collection<Answer> findAnswersByQuestionId(int questionId) {
-        return questionRepository.findQuestionById(questionId).get().getAnswers();
+
+        Optional<Question> optionalQuestion = questionRepository.findQuestionById(questionId);
+
+        return optionalQuestion.isPresent() ? optionalQuestion.get().getAnswers() : new ArrayList<>();
     }
 
     public int findNextQuestionIdByAnswerId(int answerId) {

@@ -18,30 +18,80 @@
 
 </head>
 <body>
+<style>
+    body {
+        background-image: url('https://c4.wallpaperflare.com/wallpaper/251/417/90/bright-fantasy-world-wallpaper-preview.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
 
 <div class="block">
-    <h3><%= question %>
-    </h3>
+    <c:if test="${!sessionScope.end}">
+        <h3><%= question %>
+        </h3>
+    </c:if>
+    <c:if test="${sessionScope.end}">
+        <h3>Congratulations! You have completed your journey.</h3>
+    </c:if>
 </div>
 <hr>
-<c:if test="${!sessionScope.end}">
-    <form action="questgame" method="post">
-        <div class="form-check">
-            <c:forEach var="answer" items="${sessionScope.answers}">
-                <input class="form-check-input" type="radio" name="id" id="answerRadioDefault"
-                       value="${answer.id}">
-                <label class="form-check-label" for="answerRadioDefault">
-                        ${answer.text}
-                </label><br>
-            </c:forEach>
-            <br>
-            <button type="submit">Continue...</button>
-        </div>
-    </form>
-</c:if>
+<c:choose>
+    <c:when test="${sessionScope.restart}">
+        <c:set var="restart" value="${false}" scope="session"/>
+        <button onclick="location.href='${pageContext.request.contextPath}/index.jsp'" type="button">
+            Start new game
+        </button>
+    </c:when>
+    <c:when test="${sessionScope.end}">
+        <c:set var="end" value="${false}" scope="session"/>
+        <button onclick="location.href='start?userName=<%= userName %>'" type="button">
+            Restart game
+        </button>
+    </c:when>
+    <c:otherwise>
+        <form action="questgame" method="post">
+            <div class="form-check">
+                <c:forEach var="answer" items="${sessionScope.answers}">
+                    <input class="form-check-input" type="radio" name="id" id="answerRadioDefault"
+                           value="${answer.id}">
+                    <label class="form-check-label" for="answerRadioDefault">
+                            ${answer.text}
+                    </label><br>
+                </c:forEach>
+                <br>
+                <button type="submit">Continue...</button>
+            </div>
+        </form>
+    </c:otherwise>
+</c:choose>
+<%--<c:if test="${!sessionScope.restart} && ${!sessionScope.end}">--%>
+<%--    <form action="questgame" method="post">--%>
+<%--        <div class="form-check">--%>
+<%--            <c:forEach var="answer" items="${sessionScope.answers}">--%>
+<%--                <input class="form-check-input" type="radio" name="id" id="answerRadioDefault"--%>
+<%--                       value="${answer.id}">--%>
+<%--                <label class="form-check-label" for="answerRadioDefault">--%>
+<%--                        ${answer.text}--%>
+<%--                </label><br>--%>
+<%--            </c:forEach>--%>
+<%--            <br>--%>
+<%--            <button type="submit">Continue...</button>--%>
+<%--        </div>--%>
+<%--    </form>--%>
+<%--</c:if>--%>
+
+<%--<c:if test="${sessionScope.restart}">--%>
+<%--    <a class="btn btn-warning" href="${pageContext.request.contextPath}/index.jsp" role="button">Start new game</a>--%>
+<%--    <c:set var="restart" value="${false}" scope="session" />--%>
+<%--</c:if>--%>
+
+<%--<c:if test="${sessionScope.end}">--%>
+<%--    <a class="btn btn-warning" href="start" role="button">Restart game</a>--%>
+<%--    <c:set var="end" value="${false}" scope="session" />--%>
+<%--</c:if>--%>
 <hr>
-<%--<h4><%= answer0 %></h4>--%>
-<%--<h4><%= answer1 %></h4>--%>
 <hr>
 <p>Your name: <%= userName %><br>
     Score: <%= userScore %><br>

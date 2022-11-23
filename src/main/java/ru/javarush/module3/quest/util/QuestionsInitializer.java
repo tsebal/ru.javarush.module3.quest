@@ -24,7 +24,7 @@ public class QuestionsInitializer {
     private void init() {
         int questionsTotal = Integer.parseInt(questProp.getProperty("QuestionsTotal"));
 
-        for (int i = 1; i <= questionsTotal; i++) {
+        for (int i = 0; i < questionsTotal; i++) {
             String questionText = questProp.getProperty(String.valueOf(i));
             Question question = new Question(i, questionText);
             questionsMap.put(i, question);

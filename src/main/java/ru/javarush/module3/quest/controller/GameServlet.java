@@ -33,20 +33,36 @@ public class GameServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
-            HttpSession session = request.getSession();
-            String userSessionId = session.getId();
+
+            String answerIdParam = request.getParameter("id");
+            if (answerIdParam == null || answerIdParam.isBlank()) {
+                response.sendRedirect(request.getContextPath() + "/questgame.jsp");
+                return;
+            }
+
             int answerId = Integer.parseInt(request.getParameter("id"));
             int nextQuestionId = gameService.findNextQuestionIdByAnswerId(answerId);
 
-            session.setAttribute("userScore", gameService.getUserScore(userSessionId));
-            session.setAttribute("question", gameService.findQuestionById(nextQuestionId));
-            session.setAttribute("answers", gameService.findAnswersByQuestionId(nextQuestionId));
+            if (nextQuestionId == 0) {
+                request.getSession().setAttribute("restart", true);
+            } else if (nextQuestionId == -1) {
+                request.getSession().setAttribute("end", true);
+            }
 
+            setSessionAttributes(request, nextQuestionId);
             response.sendRedirect(request.getContextPath() + "/questgame.jsp");
 
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Problems with GameServlet doPost(): " + e.getMessage());
         }
+    }
+
+    private void setSessionAttributes(HttpServletRequest request, int nextQuestionId) {
+        HttpSession session = request.getSession();
+        String userSessionId = session.getId();
+        session.setAttribute("userScore", gameService.getUserScore(userSessionId));
+        session.setAttribute("question", gameService.findQuestionById(nextQuestionId));
+        session.setAttribute("answers", gameService.findAnswersByQuestionId(nextQuestionId));
     }
 }
