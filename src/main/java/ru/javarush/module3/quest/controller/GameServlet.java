@@ -55,6 +55,7 @@ public class GameServlet extends HttpServlet {
             }
             if (nextQuestionId == 0) {
                 gameService.resetUserScore(userSessionId);
+                logger.info("QuestGame: Game Over.");
             }
 
             setSessionAttributes(request, nextQuestionId);
