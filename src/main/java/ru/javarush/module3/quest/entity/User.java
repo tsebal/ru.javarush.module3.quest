@@ -1,7 +1,7 @@
 package ru.javarush.module3.quest.entity;
 
 public class User {
-    private String name;
+    private final String name;
     private int score;
 
     public User(String name) {
@@ -13,15 +13,15 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getScore() {
         return score;
     }
 
     public void incrementScore() {
         this.score++;
+    }
+
+    public void resetScore() {
+        this.score = 0;
     }
 }

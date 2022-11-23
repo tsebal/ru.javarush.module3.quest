@@ -40,8 +40,18 @@ public class GameService {
         userRepository.addUser(sessionId, new User(userName));
     }
 
+    public String getUserName(String sessionId) {
+
+        Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
+
+        return optionalUser.map(User::getName).orElse("Unknown User");
+    }
+
     public boolean userIsPresent(String sessionId) {
-        return Objects.nonNull(userRepository.findUserBySessionId(sessionId));
+
+        Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
+
+        return optionalUser.isPresent();
     }
 
     public String getUserScore(String sessionId) {
@@ -49,6 +59,18 @@ public class GameService {
         Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
 
         return optionalUser.map(user -> String.valueOf(user.getScore())).orElse("");
+    }
+
+    public void incrementUserScore(String sessionId) {
+
+        Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
+        optionalUser.ifPresent(User::incrementScore);
+    }
+
+    public void resetUserScore(String sessionId) {
+
+        Optional<User> optionalUser = userRepository.findUserBySessionId(sessionId);
+        optionalUser.ifPresent(User::resetScore);
     }
 
     public String findQuestionById(int questionId) {

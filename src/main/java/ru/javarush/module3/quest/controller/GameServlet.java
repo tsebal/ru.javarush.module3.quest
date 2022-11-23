@@ -34,6 +34,7 @@ public class GameServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
 
+            String userSessionId = request.getSession().getId();
             String answerIdParam = request.getParameter("id");
             if (answerIdParam == null || answerIdParam.isBlank()) {
                 response.sendRedirect(request.getContextPath() + "/questgame.jsp");
@@ -43,10 +44,17 @@ public class GameServlet extends HttpServlet {
             int answerId = Integer.parseInt(request.getParameter("id"));
             int nextQuestionId = gameService.findNextQuestionIdByAnswerId(answerId);
 
+            switch (nextQuestionId) {
+                case 0:
+                    request.getSession().setAttribute("restart", true);
+                    break;
+                case -1:
+                    request.getSession().setAttribute("end", true);
+                default:
+                    gameService.incrementUserScore(userSessionId);
+            }
             if (nextQuestionId == 0) {
-                request.getSession().setAttribute("restart", true);
-            } else if (nextQuestionId == -1) {
-                request.getSession().setAttribute("end", true);
+                gameService.resetUserScore(userSessionId);
             }
 
             setSessionAttributes(request, nextQuestionId);

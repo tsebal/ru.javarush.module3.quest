@@ -26,6 +26,8 @@
     <input type="text" id="inputName" name="userName" required size="12" maxlength="12">
     <input type="submit" value="Continue..."/>
 </form>
+<br><br><br><br><br><br><br><br><br><br><br>
+<p>©2022 powered by Tsebal</p>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

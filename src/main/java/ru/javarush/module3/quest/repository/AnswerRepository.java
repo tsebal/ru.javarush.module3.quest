@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class AnswerRepository {
-    private Map<Integer, Answer> idToAnswer;
+    private final Map<Integer, Answer> idToAnswer;
 
     public AnswerRepository(Map<Integer, Answer> idToAnswer) {
         this.idToAnswer = idToAnswer;

@@ -41,12 +41,12 @@ public class InitServlet extends HttpServlet {
             String userName = request.getParameter("userName");
             int firstQuestionId = 1;
 
-            if (gameService.userIsPresent(userSessionId)) {
+            if (!gameService.userIsPresent(userSessionId)) {
                 gameService.addNewUser(userSessionId, userName);
-                logger.info("New User added: " + userName);
+                logger.info("New User added: " + userName + " SessionID: " + userSessionId);
             }
 
-            session.setAttribute("userName", userName);
+            session.setAttribute("userName", gameService.getUserName(userSessionId));
             session.setAttribute("userScore", gameService.getUserScore(userSessionId));
             session.setAttribute("question", gameService.findQuestionById(firstQuestionId));
             session.setAttribute("answers", gameService.findAnswersByQuestionId(firstQuestionId));
