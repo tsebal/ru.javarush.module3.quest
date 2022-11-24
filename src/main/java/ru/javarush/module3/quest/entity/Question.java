@@ -12,10 +12,6 @@ public class Question {
         this.text = text;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
     public int getId() {
         return id;
     }
@@ -26,5 +22,9 @@ public class Question {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }

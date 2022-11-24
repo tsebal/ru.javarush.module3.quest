@@ -52,9 +52,9 @@ public class InitServlet extends HttpServlet {
             session.setAttribute("answers", gameService.findAnswersByQuestionId(firstQuestionId));
 
             response.sendRedirect(request.getContextPath() + "/questgame.jsp");
+            logger.info("QuestGame is initialized and running.");
 
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("Problems with InitServlet doGet(): " + e.getMessage());
         }
     }

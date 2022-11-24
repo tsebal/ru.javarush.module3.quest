@@ -55,13 +55,13 @@ public class GameServlet extends HttpServlet {
             }
             if (nextQuestionId == 0) {
                 gameService.resetUserScore(userSessionId);
+                logger.info("QuestGame: Game Over.");
             }
 
             setSessionAttributes(request, nextQuestionId);
             response.sendRedirect(request.getContextPath() + "/questgame.jsp");
 
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error("Problems with GameServlet doPost(): " + e.getMessage());
         }
     }
@@ -72,5 +72,8 @@ public class GameServlet extends HttpServlet {
         session.setAttribute("userScore", gameService.getUserScore(userSessionId));
         session.setAttribute("question", gameService.findQuestionById(nextQuestionId));
         session.setAttribute("answers", gameService.findAnswersByQuestionId(nextQuestionId));
+
+        logger.info("GameServlet: from method setSessionAttributes - completed: " + userSessionId +
+                 " Next questionId: " + nextQuestionId);
     }
 }
