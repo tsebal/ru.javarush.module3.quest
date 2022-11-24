@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
-import ru.javarush.module3.quest.entity.Question;
 import ru.javarush.module3.quest.entity.User;
-import ru.javarush.module3.quest.repository.QuestionRepository;
 import ru.javarush.module3.quest.repository.UserRepository;
 
 import java.lang.reflect.Field;
@@ -13,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserRepositoryTest {
     @Test
+    @SuppressWarnings("unchecked")
     void userRepositoryConstructorShouldSetEmptySessionToUserVariable() {
         int exceptedSessionToUserMapSize = 0;
 
@@ -29,6 +28,7 @@ public class UserRepositoryTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void methodAddUserShouldSetSessionToUserVariable() {
         String sessionId = "777";
         User exceptedUser = new User("UserName");

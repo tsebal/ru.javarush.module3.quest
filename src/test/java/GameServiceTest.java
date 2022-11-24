@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import ru.javarush.module3.quest.entity.Answer;
 import ru.javarush.module3.quest.entity.Question;
 import ru.javarush.module3.quest.entity.User;
+import ru.javarush.module3.quest.repository.AnswerRepository;
 import ru.javarush.module3.quest.repository.QuestionRepository;
 import ru.javarush.module3.quest.repository.UserRepository;
 import ru.javarush.module3.quest.service.GameService;
@@ -191,7 +192,32 @@ public class GameServiceTest {
             throw new RuntimeException(e);
         }
 
-        List<Answer> actualQuestionText = (List<Answer>) gameService.findAnswersByQuestionId(questionId);
-        assertEquals(exceptedAnswerList, actualQuestionText);
+        List<Answer> actualAnswerList = (List<Answer>) gameService.findAnswersByQuestionId(questionId);
+        assertEquals(exceptedAnswerList, actualAnswerList);
+    }
+
+    @Test
+    void methodFindNextQuestionIdByAnswerIdShouldReturnNextQuestionId() {
+
+        int exceptedAnswerId = 0;
+
+        int answerId = 777;
+        Map<Integer, Answer> idToAnswer = new HashMap<>();
+        Answer answer = new Answer(answerId, "AnswerText", null);
+        idToAnswer.put(answerId, answer);
+        AnswerRepository answerRepository = new AnswerRepository(idToAnswer);
+
+        GameService gameService = GameService.getInstance();
+
+        try {
+            Field instance = GameService.class.getDeclaredField("answerRepository");
+            instance.setAccessible(true);
+            instance.set(gameService, answerRepository);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        int actualAnswerId = gameService.findNextQuestionIdByAnswerId(answerId);
+        assertEquals(exceptedAnswerId, actualAnswerId);
     }
 }
