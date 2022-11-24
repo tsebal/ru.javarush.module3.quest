@@ -38,4 +38,26 @@ public class UserTest {
         }
     }
 
+    @Test
+    void methodIncrementScoreShouldIncrementByOneScore() {
+        int exceptedScore = 1;
+
+        User user = new User("User");
+        user.incrementScore();
+        int actualScore = user.getScore();
+        assertEquals(exceptedScore, actualScore);
+    }
+
+    @Test
+    void methodResetScoreShouldResetTheScore() {
+        int exceptedScore = 0;
+
+        User user = new User("User");
+        user.incrementScore();
+        user.incrementScore();
+        user.resetScore();
+        int actualScore = user.getScore();
+        assertEquals(exceptedScore, actualScore);
+    }
+
 }
